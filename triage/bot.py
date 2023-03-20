@@ -1,0 +1,182 @@
+import os
+
+import openai 
+import textwrap
+import loguru
+from halo import Halo
+import functools
+from IPython.display import display, Markdown
+
+from .connectors import (
+    GitHubConnector,
+)
+
+def spinning(text='Loading'):
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            spinner = Halo(text=text, spinner="dots")
+            spinner.start()
+            try:
+                result = func(*args, **kwargs)
+            finally:
+                spinner.stop()
+            return result
+        return wrapper
+    return decorator
+
+def get_secret(key):
+    """ Get a secret from the secrets directory."""
+    secret_file = os.path.join("../secrets", f"{key}.txt")
+    with open(secret_file, 'r') as f:
+        secret = f.readline().strip()
+    return secret
+
+class Bot:
+    pass
+
+class TrIAge(Bot):
+    """ A helpful bot assisting users and maintainers of open source projects. """
+
+    name = "trIAge"
+    mission = f"You are {name}, a helpful bot that assists users and maintainers of open source projects."
+
+    jobs = [
+        "You are a bot that helps users and maintainers of open source projects.",
+        "You are able to assess and rate the quality of issues.",
+        "You are able to give suggestions on how to improve the quality of issues.",
+        "You are able to point users to relevant documentation and other ressources.",
+        "You are able to suggest solutions to issues.",
+    ]
+
+    instructions = [
+        "When addresssing a user, you should always @-mention their username.",
+        "When asked to respond, you should only output the response, not acknowledge the request.",
+    ]
+
+
+    def __init__(
+        self, 
+        model_provider,
+        model_api_key,
+        hub_api_key, 
+        model_name="gpt-3.5-turbo",
+    ):
+        self.model_provider = model_provider
+        self.model_name = model_name
+        self.set_api_key(model_api_key)
+        self.hub = GitHubConnector(hub_api_key)
+        self._configure()
+
+
+    def set_api_key(self, api_key):
+        """ Set the API key for the model provider."""
+        if self.model_provider == "openai":
+            self.api_key = api_key
+            openai.api_key = api_key
+        else:
+            raise NotImplementedError(f"unknown model provider {self.model_provider}")
+        
+    @spinning(text="Configuring...")
+    def _configure(self):
+        """ Configure the bot by prompting it to describe its mission and jobs. """
+        self.chat_history = []
+        self.chat_history.append(
+            {
+                "role": "system",
+                "content": self.mission,
+            }
+        )
+        for job in self.jobs:
+            self.chat_history.append(
+                {
+                    "role": "system",
+                    "content": job,
+                }
+            )
+        for instruction in self.instructions:
+            self.chat_history.append(
+                {
+                    "role": "system",
+                    "content": instruction,
+                }
+            )
+        openai.ChatCompletion.create(
+            model=self.model_name,
+            messages=self.chat_history
+        )
+
+    def display(self, text):
+        display(Markdown(text))
+    
+    def print(self, text):
+        print()
+        print()
+        wrapped_text = textwrap.fill(text, width=80)
+        print(wrapped_text)
+
+    @spinning(text="Thinking...")
+    def tell_system(
+        self,
+        prompt,
+    ):
+        self.chat_history.append({"role": "system", "content": prompt})
+        response = openai.ChatCompletion.create(
+            model=self.model_name,
+            messages=self.chat_history
+        )
+        # for debugging
+        self.display(response.choices[0].message["content"])
+
+
+    @spinning(text="Thinking...")
+    def tell(
+        self,
+        prompt,
+    ):
+        """Tell the bot something and display the response."""
+        self.chat_history.append({"role": "user", "content": prompt})
+        response = openai.ChatCompletion.create(
+            model=self.model_name,
+            messages=self.chat_history
+        )
+        message = response.choices[0].message
+        self.chat_history.append(message)
+        self.display(message["content"])
+
+    def see_repo(self, repo_url):
+        """ """
+        self.hub.connect_repo(repo_url)
+        repo = self.hub.repo
+        # tell the bot about the repository
+        facts = [
+            f"You are looking at the repository {repo_url}.",
+            f"The repository is called {repo.name}.",
+            f"The repository description is {repo.description}.",
+            f"The repository has {repo.stargazers_count} stars.",
+            f"The repository is licensed under {repo.get_license().license.name}.",
+        ]
+        self.tell_system(" ".join(facts))
+
+    def get_issues(self):
+        """ """
+        if self.hub.repo is None:
+            print("Please connect to a repository first")
+            return
+        issues = self.hub.repo.get_issues(state="open")
+        return list(issues)
+
+    def see_issue(self, issue):
+        """ """
+        # tell the bot about the issue
+        facts = [
+            f"You are looking at the issue {issue.title}.",
+            f"The issue is labeled {issue.labels}.",
+            f"The issue has been filed by the user {issue.user.login}.",
+            f"The issue description is {issue.body}.",
+            #f"The issue has {len(issue.comments)} comments.",
+            #f"The issue has been opened {issue.created_at}.",
+            #f"The issue has been updated {issue.updated_at}.",
+        ]
+        self.tell_system(" ".join(facts))
+

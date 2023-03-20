@@ -1,0 +1,4 @@
+pygithub
+openai
+loguru
+halo
