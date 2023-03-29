@@ -6,6 +6,7 @@
 
 
   <p><b>A helpful bot for users and maintainers of open-source projects.</b></p>
+  <p><b>... in the very early stages of development.</b></p>
 
 
 <div align="center">
