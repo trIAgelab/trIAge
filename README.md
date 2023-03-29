@@ -22,7 +22,7 @@ The following is a dialog demo:
 > **@trIAge Who are you and what can you do?**
 
 
-> Hello! I am trIAge, a helpful bot designed to assist users and maintainers of open source projects. I am capable of assessing and rating the quality of issues, giving suggestions on how to improve the quality of issues, pointing users to relevant documentation and other resources, and suggesting solutions to issues. So feel free to ask for my help!
+> Hello! I am trIAge, a helpful bot designed to assist users and maintainers of open source projects. I am capable of assessing and rating the quality of issues, giving suggestions on how to improve the quality of issues, pointing users to relevant documentation and other resources, and suggesting solutions to issues. 
 
 <br>
 
@@ -35,20 +35,14 @@ The following is a dialog demo:
 
 > **What do you know about this repo?**
 
-> This repository is called stanford_alpaca, and it contains code and documentation to train Stanford's Alpaca models and generate data. The Alpaca project is an instruction-following LLaMA model, which stands for Latent language learners and models from ambiguity. The repository has 16306 stars on GitHub and is licensed under Apache License 2.0.
+> This repository is called stanford_alpaca, and it contains code and documentation to train Stanford's Alpaca models and generate data. The Alpaca project is an instruction-following LLaMA model, which stands for Latent language learners and models from ambiguity. 
 
 <br>
 
 > **See [this issue](https://github.com/tatsu-lab/stanford_alpaca/issues/63)**
 
-> This issue, labeled as empty and filed by user jordancole21, requests support for a specific model, gpt-3.5-turbo, in the data generator. It seems that the user is asking for a new feature to be added to the tool. However, it is not clear whether such support is already available or planned for implementation. The repository maintainers may need to provide more information regarding this issue.
+> This issue, labeled as empty and filed by user jordancole21, requests support for a specific model, gpt-3.5-turbo, in the data generator. It seems that the user is asking for a new feature to be added to the tool. However, it is not clear whether such support is already available or planned for implementation. 
 
-<br>
-
-> **Is the issue well described?**
-
-
-> The issue is fairly well described. The author specifies the model they are interested in and asks if there is any chance for a version of the data generator that supports it. However, it could be more detailed about the desired functionality and the use case for such feature.
 
 <br>
 
@@ -58,16 +52,10 @@ The following is a dialog demo:
 
 <br>
 
-> **What would make it a 10?**
-
-> To make this issue a 10 out of 10, it would be helpful if the user could provide more details about how the gpt-3.5-turbo model would be used with the data generator, and what sorts of functionality they would like the new version of the data generator to have. Additionally, the author could provide any relevant research or use cases that might inform the desired functionality of the new feature. The more information and context provided, the better the maintainers can understand and evaluate the request, and create a solution that meets the user's needs.
-
-<br>
-
 > **Respond to the user with suggestions to make the issue a 10**
 
 > Hi @jordancole21, thank you for submitting this issue! To make it easier for maintainers to understand your request, it would be helpful to provide some additional details. Specifically, it would be good to know how the gpt-3.5-turbo model would be used with the data generator, and what sorts of functionality you would like the new version of the data generator to have. Additionally, if there are any relevant research or use cases that might inform the desired functionality of the new feature, please share those as well. The more information and context you can provide, the better we can evaluate your request and create a solution that meets your needs.
->If you have any more questions or information to share, please feel free to add it to this issue. Thanks again for your contribution to the project!
+
 
 <br>
 
@@ -80,7 +68,6 @@ The following is a dialog demo:
 >4. Test the new version of the data generator with the gpt-3.5-turbo model, and make any necessary adjustments to ensure that the generated data meets the desired quality > standards.
 > 5. Release the new version of the data generator as an update to the existing code base, including thorough documentation about the changes made and the requirements for use.
 > 
->Once the above steps are completed, the issue can be marked as resolved and the user notified that the new version of the data generator is available.
 
 
 
