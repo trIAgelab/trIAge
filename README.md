@@ -1,3 +1,7 @@
+<!DOCTYPE html>
+<html>
+<head>
+
 <style>
 .right {
   position: relative;
@@ -32,6 +36,8 @@
   clear: both;
 }
 </style>
+
+</head>
 
 
 <br />
