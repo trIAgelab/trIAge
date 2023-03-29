@@ -157,6 +157,10 @@ class TrIAge(Bot):
             f"The repository is licensed under {repo.get_license().license.name}.",
         ]
         self.tell_system(" ".join(facts))
+        content = [
+            f"This is the README of the repository {repo.name}:\n {self.hub.get_readme(words=500)}",
+         ]
+        self.tell_system(" ".join(content))
 
     def get_issues(self):
         """ """

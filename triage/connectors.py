@@ -3,6 +3,7 @@ import github
 import getpass
 import pandas
 from abc import ABC, abstractmethod
+import textwrap
 
 
 class RepoConnector(ABC):
@@ -47,6 +48,13 @@ class GitHubConnector(RepoConnector):
         issues = self.repo.get_issues(state=state)
 
         return list(issues)
+    
+    def get_readme(self, words=None):
+        readme = self.repo.get_readme()
+        text = readme.decoded_content.decode("utf-8")
+        if words:
+            text = textwrap.shorten(text, width=words)
+        return text
     
 
     def get_issue_events(self, issue):
