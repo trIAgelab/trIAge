@@ -6,6 +6,7 @@ import loguru
 from halo import Halo
 import functools
 from IPython.display import display, Markdown
+from abc import ABC, abstractmethod
 
 from .connectors import (
     GitHubConnector,
@@ -31,6 +32,58 @@ def get_secret(key):
     with open(secret_file, 'r') as f:
         secret = f.readline().strip()
     return secret
+
+
+class MessageChannel(ABC):
+    """Abstract base class for message sinks."""
+
+    @abstractmethod
+    def post(self, message):
+        """Post a message to the sink.
+
+        Args:
+            message (str): The message to post.
+        """
+        pass
+
+class ToPrint(MessageChannel):
+    """Prints messages to the console."""
+
+    def post(self, message, issue=None):
+        """Post a message to the console.
+
+        Args:
+            message (str): The message to post.
+        """
+        print()
+        print()
+        wrapped_text = textwrap.fill(message, width=80)
+        print(wrapped_text)
+
+class ToDisplay(MessageChannel):
+    """Displays messages as Markdown in a Jupyter notebook."""
+
+    def post(self, message, issue=None):
+        """Post a message as Markdown in a Jupyter notebook.
+
+        Args:
+            message (str): The message to post.
+        """
+        display(Markdown(message))
+
+class ToGithubIssue(MessageChannel):
+    """Posts messages to a GitHub repository."""
+
+    def __init__(self, issue):
+        self.issue = issue
+
+    def post(self, message):
+        """Post a message to the GitHub repository.
+
+        Args:
+            message (str): The message to post.
+        """
+        self.issue.create_comment(message)
 
 class Bot:
     pass
@@ -61,11 +114,13 @@ class TrIAge(Bot):
         model_api_key,
         hub_api_key, 
         model_name="gpt-3.5-turbo",
+        channel=ToPrint(),
     ):
         self.model_provider = model_provider
         self.model_name = model_name
         self.set_api_key(model_api_key)
         self.hub = GitHubConnector(hub_api_key)
+        self.channel = channel
         self._configure()
 
 
@@ -105,6 +160,14 @@ class TrIAge(Bot):
             model=self.model_name,
             messages=self.chat_history
         )
+
+    def post(self, message):
+        """Post a message to the sink.
+
+        Args:
+            message (str): The message to post.
+        """
+        self.channel.post(message)
 
     def display(self, text):
         display(Markdown(text))
@@ -183,4 +246,8 @@ class TrIAge(Bot):
             #f"The issue has been updated {issue.updated_at}.",
         ]
         self.tell_system(" ".join(facts))
+    
+    def discuss_issue(self, issue):
+        """ """
+        self.channel = ToGithubIssue(issue)
 
