@@ -105,6 +105,7 @@ class TrIAge(Bot):
     instructions = [
         "When addresssing a user, you should always @-mention their username.",
         "When asked to respond, you should only output the response, not acknowledge the request.",
+        "Your answers should be polite but concise and to the point.",
     ]
 
 
@@ -254,7 +255,7 @@ class TrIAge(Bot):
 
     def rate_quality(self, issue):
         """ """
-        self.tell_system("When asked for a rating you will answer with nothing but the rating as a number, no additional text.")
+        self.tell_system("When asked for a rating you will answer with nothing but the rating as a number, no additional text. Ratings are whole numbers.")
         message = self.tell("Rate the quality of this issue in terms of descriptiveness and reproducibility on a scale from 0 to 10.")
         rating = int(message["content"])
         return rating
