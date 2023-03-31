@@ -18,6 +18,20 @@
 
 # About
 
+## Target Functionality
+
+- Support: answer questions based on documentation, generate explanatory code examples
+- Issue Quality Control: analyze issues for quality of description and reproducibility, provide feedback for improvement
+- Issue Triage: Automatically categorize issues by content (feature request, bug, support) and tag them, detect duplicates, prioritize issues (e.g. security issues), link related issues
+- Debugging: Analyze error causes, generate solution suggestions
+- Testing: automatic generation of test cases based on issues
+- Pull Request Review: Analysis of pull requests regarding code quality, code style, documentation, test coverage, etc.
+- Documentation: Generation of documentation proposals from the project context
+- Changelogs: Generation of changelogs from the project history
+
+
+## Demo
+
 The following is a dialog demo:
 
 > **@trIAge Who are you and what can you do?**
