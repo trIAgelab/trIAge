@@ -113,7 +113,7 @@ class TrIAge(Bot):
         model_provider,
         model_api_key,
         hub_api_key, 
-        model_name="gpt-3.5-turbo",
+        model_name="gpt-4",
         channel=ToPrint(),
     ):
         self.model_provider = model_provider
@@ -206,6 +206,7 @@ class TrIAge(Bot):
         message = response.choices[0].message
         self.chat_history.append(message)
         self.display(message["content"])
+        return message
 
     def see_repo(self, repo_url):
         """ """
@@ -251,3 +252,19 @@ class TrIAge(Bot):
         """ """
         self.channel = ToGithubIssue(issue)
 
+    def rate_quality(self, issue):
+        """ """
+        self.tell_system("When asked for a rating you will answer with nothing but the rating as a number, no additional text.")
+        message = self.tell("Rate the quality of this issue in terms of descriptiveness and reproducibility on a scale from 0 to 10.")
+        rating = int(message["content"])
+        return rating
+    
+    def rate_novelty(self, issue):
+        """ """
+        message = self.tell(
+            """Rate the novelty of this issue on a scale from 0 to 10, where a higher number means more novel.
+            The novelty is the extent to which this issue is already answered or discussed in the documentation, where 10 means that there is no relationship between the issue and the documentation and 0 means that the issue is literally answered in the documentation. 
+            Output only the rating as a number."""
+        )
+        rating = int(message["content"])
+        return rating
