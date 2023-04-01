@@ -49,6 +49,14 @@ class GitHubConnector(RepoConnector):
 
         return list(issues)
     
+    def get_issue(self, issue_number):
+        if self.repo is None:
+            print("Please connect to a repository first")
+            return
+
+        issue = self.repo.get_issue(issue_number)
+        return issue
+    
     def get_readme(self, words=None):
         readme = self.repo.get_readme()
         text = readme.decoded_content.decode("utf-8")

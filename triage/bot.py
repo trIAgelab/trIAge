@@ -114,7 +114,7 @@ class TrIAge(Bot):
         model_provider,
         model_api_key,
         hub_api_key, 
-        model_name="gpt-4",
+        model_name="gpt-3.5-turbo",
         channel=ToPrint(),
     ):
         self.model_provider = model_provider
@@ -223,7 +223,7 @@ class TrIAge(Bot):
         ]
         self.tell_system(" ".join(facts))
         content = [
-            f"This is the README of the repository {repo.name}:\n {self.hub.get_readme(words=500)}",
+            #f"This is the README of the repository {repo.name}:\n {self.hub.get_readme(words=None)}",
          ]
         self.tell_system(" ".join(content))
 
@@ -232,11 +232,12 @@ class TrIAge(Bot):
         if self.hub.repo is None:
             print("Please connect to a repository first")
             return
-        issues = self.hub.repo.get_issues(state="open")
+        issues = self.hub.repo.get_issues(state="all")
         return list(issues)
 
     def see_issue(self, issue):
         """ """
+
         # tell the bot about the issue
         facts = [
             f"You are looking at the issue {issue.title}.",
