@@ -3,28 +3,16 @@ import os
 import openai 
 import textwrap
 import loguru
-from halo import Halo
-import functools
 from IPython.display import display, Markdown
 from abc import ABC, abstractmethod
 
 from .connectors import (
     GitHubConnector,
 )
+from .util import (
+    spinning
+)
 
-def spinning(text='Loading'):
-    def decorator(func):
-        @functools.wraps(func)
-        def wrapper(*args, **kwargs):
-            spinner = Halo(text=text, spinner="dots")
-            spinner.start()
-            try:
-                result = func(*args, **kwargs)
-            finally:
-                spinner.stop()
-            return result
-        return wrapper
-    return decorator
 
 def get_secret(key):
     """ Get a secret from the secrets directory."""
@@ -270,3 +258,8 @@ class TrIAge(Bot):
         )
         rating = int(message["content"])
         return rating
+
+
+
+
+    
