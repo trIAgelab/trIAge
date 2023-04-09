@@ -14,13 +14,6 @@ from .util import (
 )
 
 
-def get_secret(key):
-    """ Get a secret from the secrets directory."""
-    secret_file = os.path.join("../secrets", f"{key}.txt")
-    with open(secret_file, 'r') as f:
-        secret = f.readline().strip()
-    return secret
-
 
 class MessageChannel(ABC):
     """Abstract base class for message sinks."""

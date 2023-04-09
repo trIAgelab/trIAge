@@ -3,3 +3,4 @@ openai
 loguru
 halo
 langchain
+unstructured
