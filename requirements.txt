@@ -2,3 +2,4 @@ pygithub
 openai
 loguru
 halo
+langchain
