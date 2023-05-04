@@ -132,3 +132,6 @@ dmypy.json
 
 # ignore secrets
 secrets/
+
+# chromadb
+.chroma
