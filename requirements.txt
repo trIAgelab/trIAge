@@ -4,3 +4,4 @@ loguru
 halo
 langchain
 unstructured
+octomachinery
