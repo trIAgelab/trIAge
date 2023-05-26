@@ -18,6 +18,7 @@ async def on_comment(
     installation=None,
     assignee=None,
     changes=None,
+    organization=None,
 ):
     github_api = RUNTIME_CONTEXT.app_installation_client
     comment_reactions_api_url = f"{comment['url']}/reactions"
