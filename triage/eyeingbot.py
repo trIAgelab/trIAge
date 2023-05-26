@@ -53,7 +53,7 @@ async def on_comment(
 
         await github_api.post(
             comment_reactions_api_url, 
-            data={'body': "I have read the issue."}
+            data={"content": "I have read the issue."}
         )
 
         
