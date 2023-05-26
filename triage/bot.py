@@ -3,35 +3,16 @@ import os
 import openai 
 import textwrap
 import loguru
-from halo import Halo
-import functools
 from IPython.display import display, Markdown
 from abc import ABC, abstractmethod
 
 from .connectors import (
     GitHubConnector,
 )
+from .util import (
+    spinning
+)
 
-def spinning(text='Loading'):
-    def decorator(func):
-        @functools.wraps(func)
-        def wrapper(*args, **kwargs):
-            spinner = Halo(text=text, spinner="dots")
-            spinner.start()
-            try:
-                result = func(*args, **kwargs)
-            finally:
-                spinner.stop()
-            return result
-        return wrapper
-    return decorator
-
-def get_secret(key):
-    """ Get a secret from the secrets directory."""
-    secret_file = os.path.join("../secrets", f"{key}.txt")
-    with open(secret_file, 'r') as f:
-        secret = f.readline().strip()
-    return secret
 
 
 class MessageChannel(ABC):
@@ -105,6 +86,7 @@ class TrIAge(Bot):
     instructions = [
         "When addresssing a user, you should always @-mention their username.",
         "When asked to respond, you should only output the response, not acknowledge the request.",
+        "Your answers should be polite but concise and to the point.",
     ]
 
 
@@ -206,6 +188,7 @@ class TrIAge(Bot):
         message = response.choices[0].message
         self.chat_history.append(message)
         self.display(message["content"])
+        return message
 
     def see_repo(self, repo_url):
         """ """
@@ -221,7 +204,7 @@ class TrIAge(Bot):
         ]
         self.tell_system(" ".join(facts))
         content = [
-            f"This is the README of the repository {repo.name}:\n {self.hub.get_readme(words=500)}",
+            #f"This is the README of the repository {repo.name}:\n {self.hub.get_readme(words=None)}",
          ]
         self.tell_system(" ".join(content))
 
@@ -230,11 +213,12 @@ class TrIAge(Bot):
         if self.hub.repo is None:
             print("Please connect to a repository first")
             return
-        issues = self.hub.repo.get_issues(state="open")
+        issues = self.hub.repo.get_issues(state="all")
         return list(issues)
 
     def see_issue(self, issue):
         """ """
+
         # tell the bot about the issue
         facts = [
             f"You are looking at the issue {issue.title}.",
@@ -251,3 +235,24 @@ class TrIAge(Bot):
         """ """
         self.channel = ToGithubIssue(issue)
 
+    def rate_quality(self, issue):
+        """ """
+        self.tell_system("When asked for a rating you will answer with nothing but the rating as a number, no additional text. Ratings are whole numbers.")
+        message = self.tell("Rate the quality of this issue in terms of descriptiveness and reproducibility on a scale from 0 to 10.")
+        rating = int(message["content"])
+        return rating
+    
+    def rate_novelty(self, issue):
+        """ """
+        message = self.tell(
+            """Rate the novelty of this issue on a scale from 0 to 10, where a higher number means more novel.
+            The novelty is the extent to which this issue is already answered or discussed in the documentation, where 10 means that there is no relationship between the issue and the documentation and 0 means that the issue is literally answered in the documentation. 
+            Output only the rating as a number."""
+        )
+        rating = int(message["content"])
+        return rating
+
+
+
+
+    
