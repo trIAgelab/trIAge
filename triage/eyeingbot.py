@@ -34,22 +34,22 @@ async def on_comment(
         )
 
         # Collect issue name, description, and all comment history
-        issue_api_url = issue['url']
-        issue_details = await github_api.get(issue_api_url)
-        issue_name = issue_details['title']
-        issue_description = issue_details['body']
+        # issue_api_url = issue['url']
+        # issue_details = await github_api.get(issue_api_url)
+        # issue_name = issue_details['title']
+        # issue_description = issue_details['body']
 
-        comments_api_url = f"{issue_api_url}/comments"
-        comments = await github_api.get(comments_api_url)
+        # comments_api_url = f"{issue_api_url}/comments"
+        # comments = await github_api.get(comments_api_url)
 
-        issue_data = {
-            'name': issue_name,
-            'description': issue_description,
-            'comments': [
-                {'id': comment['id'], 'body': comment['body'], 'user': comment['user']['login']}
-                for comment in comments
-            ],
-        }
+        # issue_data = {
+        #     'name': issue_name,
+        #     'description': issue_description,
+        #     'comments': [
+        #         {'id': comment['id'], 'body': comment['body'], 'user': comment['user']['login']}
+        #         for comment in comments
+        #     ],
+        # }
 
         await github_api.post(
             comments_api_url, 
