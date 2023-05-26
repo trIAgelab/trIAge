@@ -51,9 +51,10 @@ async def on_comment(
         #     ],
         # }
 
+        issue_comments_api_url = f"{issue['url']}/comments"
         await github_api.post(
-            comment_reactions_api_url, 
-            data={"content": "I have read the issue."}
+            issue_comments_api_url,
+            data={"body": "I have read the issue."},
         )
 
         
