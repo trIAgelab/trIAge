@@ -7,7 +7,7 @@ from octomachinery.routing.decorators import process_webhook_payload
 from octomachinery.runtime.context import RUNTIME_CONTEXT
 
 # Define the bot's name
-BOT_NAME = "eyeingbot"
+BOT_NAME = "trIAge"
 
 @process_event_actions("issue_comment", {"created"})
 @process_webhook_payload
@@ -56,11 +56,6 @@ async def on_comment(
             issue_comments_api_url,
             data={"body": "I have read the issue."},
         )
-
-        
-
-        
-
 
 
 run_app(
