@@ -4,5 +4,6 @@ loguru
 halo
 langchain
 unstructured
+gidgethub<=5.2.0
 octomachinery
 seaborn
