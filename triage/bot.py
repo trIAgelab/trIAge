@@ -6,6 +6,9 @@ from octomachinery.routing import process_event_actions
 from octomachinery.routing.decorators import process_webhook_payload
 from octomachinery.runtime.context import RUNTIME_CONTEXT
 
+
+class trIAgeBot:
+
 # Define the bot's name
 BOT_NAME = "trIAge"
 
