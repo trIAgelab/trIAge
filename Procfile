@@ -1,1 +1,1 @@
-web: python triage/eyeingbot_oop.py
+web: python triage/bot.py
