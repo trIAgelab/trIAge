@@ -6,6 +6,13 @@ from octomachinery.runtime.context import RUNTIME_CONTEXT
 
 
 class EyeingBot:
+    """
+    A class representing a GitHub bot that reacts to comments on issues.
+
+    This bot, when mentioned in a comment on an issue, responds by 
+    reacting to the comment with "eyes" and posting a response stating 
+    it has read the issue.
+    """
     name = "eyeingbot"
 
     @process_event_actions("issue_comment", {"created"})
@@ -23,6 +30,13 @@ class EyeingBot:
         changes=None,
         organization=None,
     ):
+        """  
+        Asynchronously responds to comments on issues where the bot is mentioned.
+
+        This method is triggered when a comment is created on an issue. If the bot is 
+        mentioned in the comment, it reacts to the comment with "eyes" and posts a 
+        response stating it has read the issue.
+        """
         github_api = RUNTIME_CONTEXT.app_installation_client
         if re.search(r"\@{}\b".format(self.name), comment["body"]):
             comment_reactions_api_url = f"{comment['url']}/reactions"
