@@ -61,5 +61,5 @@ async def on_comment(
 run_app(
     name=BOT_NAME,
     version='0.0.1',
-    url='https://github.com/apps/eyeingbot',
+    url='https://github.com/apps/triage-bot-app',
 )
