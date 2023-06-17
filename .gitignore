@@ -135,3 +135,5 @@ secrets/
 
 # chromadb
 .chroma
+
+data/
