@@ -8,11 +8,6 @@
 
   <p><b>An AI assistant for open source communities</b></p>
 
-
-<div align="center">
-<img src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif" width=32 />
-</div>
-
 <p align="center">
 We develop trIAge, an AI-driven assistant that supports users, maintainers and contributors of open source projects. 
 </p>
