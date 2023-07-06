@@ -12,6 +12,8 @@
 We develop trIAge, an AI-driven assistant that supports users, maintainers and contributors of open source projects. 
 </p>
 
+<div align="left">
+
 # About
 
 Leveraging the capabilities of Large Language Models (LLMs), trIAge is able to analyze issues, discussions and pull requests on collaboration platforms (e.g. GitHub, GitLab) and provide users and maintainers with hints and suggested solutions by responding on the discussion thread. trIAge has access to the context of the project (code, documentation, guidelines) and can be configured by maintainers to become gradually active as needed. The bot automates part of the workload of maintainers and helps users to solve their issues faster, e.g. by automatically answering questions from documentation, or generating test cases for reported issues.  Current chat models like GPT-4 have shown remarkable abilities in the relevant natural language and code understanding tasks. This enables a wide range of automation with respect to issue triage, issue quality control, debugging, user support, testing and documentation. As an open-source project, we are aiming to eventually base the bot’s capabilities on emerging open-source models (e.g. Vicuna, Orca), whose capabilities are rapidly catching up to the current gold standard (GPT-4).
