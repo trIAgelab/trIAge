@@ -40,58 +40,6 @@ The MVP of trIAge can easily be deployed by open source maintainers on their rep
 
 
 
-  
-#  Prototype Test
-
-## Setup
-
-1. Clone the repository
-2. Install the dependencies from `requirements.txt`
-3. Obtain a GitHub API token and store it in the first line of a file called `secrets/github_token.txt` 
-4. Obtain an OpenAI API token and store it in the first line of a file called `secrets/openai_token.txt`
-
-## Test
-
-1. Instantiate the `trIAge` class
-
-```python
-from triage.bot import TrIAge, get_secret
-
-trIAge = TrIAge(
-    model_provider="openai",
-    model_api_key=get_secret("openai_token"),
-    hub_api_key=get_secret("github_token"),
-)
-````
-
-1. Start sending messages to the bot
-
-```python
-trIAge.tell("Who are you and what can you do?")
-````
-
-2. Let the bot scan a Github repository.
-
-```python
-trIAge.see_repo("https://github.com/tatsu-lab/stanford_alpaca")
-```
-
-3. Get a GitHub issue from the repository an let the bot read it.
-
-```python
-issues = trIAge.get_issues()
-an_issue = random.choice(issues)
-trIAge.see_issue(an_issue)
-````
-
-4. Start asking the bot questions about the issue.
-
-```python
-trIAge.tell("Rate the issue quality on a scale from 0 to 10")
-```
-
-
-
 
 </div>
 
