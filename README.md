@@ -5,8 +5,7 @@
 
 
 
-  <p><b>A helpful bot for users and maintainers of open-source projects.</b></p>
-  <p><b>... in the very early stages of development.</b></p>
+  <p><b>An AI assistant for open source communities</b></p>
 
 
 <div align="center">
