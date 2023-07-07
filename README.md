@@ -22,7 +22,9 @@ Leveraging the capabilities of Large Language Models (LLMs), trIAge is able to a
 The MVP of trIAge can easily be deployed by open source maintainers on their repositories in the form of a GitHub app, which we host as a service for demonstration purposes. We also create the option for self-hosting of the application. We add a convenient user interface for maintainers to customize the desired capabilities and action triggers of the assistant. Subsequently we plan to support other code hosting platforms (e.g. GitLab) as well. 
 
 
-## Target Functionality
+## Skills: The Assistant's Capabilities 
+
+_under construction_
 
 - Support: answer questions based on documentation, generate explanatory code examples
 - Issue Quality Control: analyze issues for quality of description and reproducibility, provide feedback for improvement
