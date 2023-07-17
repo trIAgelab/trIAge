@@ -6,7 +6,7 @@ from octomachinery.routing import process_event_actions
 from octomachinery.routing.decorators import process_webhook_payload
 from octomachinery.runtime.context import RUNTIME_CONTEXT
 
-BOT_NAME = "trIAge"
+BOT_NAME = "trIAge-bot"
 MODEL_NAME = "gpt-4.0-turbo"
 
 def set_api_key():
