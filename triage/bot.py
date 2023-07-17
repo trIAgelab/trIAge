@@ -10,10 +10,58 @@ BOT_NAME = "trIAge"
 MODEL_NAME = "gpt-4.0-turbo"
 
 def set_api_key():
+    """ Set the OpenAI API key from the environment variable."""
     api_key = os.getenv('OPENAI_KEY')
     if not api_key:
         raise ValueError("Missing OpenAI API key!")
     openai.api_key = api_key
+    
+
+@process_event_actions('installation_repositories', {'added'})
+@process_webhook_payload
+async def on_installation_repositories_added(*, installation, repositories_added, sender):
+    """
+    Handle 'installation_repositories' event with 'added' action.
+
+    This function gets triggered when a repository is added to an installation.
+    It iterates over all the added repositories and opens a new discussion with
+    a specified title and message thanking the user for installing the bot and
+    referring to the repository for more information.
+
+    Parameters
+    ----------
+    installation: dict
+        Details about the installation event.
+    repositories_added: dict
+        Details about the repositories that were added to the installation.
+    sender: dict
+        Information about the user who added the repositories to the installation.
+    """
+    
+    github_api = RUNTIME_CONTEXT.app_installation_client
+
+    for repository in repositories_added['repositories']:
+        repo_api_url = repository['url']
+        discussions_api_url = f"{repo_api_url}/discussions"
+        
+        discussion_title = "trIAge assistant ready"
+        discussion_message = (
+            "Thank you for installing an early version of the trIAge assistant! "
+            "For more information and updates, please refer to our repository: "
+            "https://github.com/trIAgelab/trIAge. If you encounter any issues or have "
+            "any feedback, feel free to report them. Thank you!"
+        )
+
+        # Create a new discussion
+        await github_api.post(
+            discussions_api_url,
+            headers={"Accept": "application/vnd.github.echo-preview+json"},
+            data={
+                "title": discussion_title,
+                "body": discussion_message,
+            },
+        )
+
 
 @process_event_actions("issue_comment", {"created"})
 @process_webhook_payload
@@ -29,6 +77,39 @@ async def on_comment(
     changes=None,
     organization=None,
 ):
+    """
+    Handle 'issue_comment' event with 'created' action.
+
+    This function is triggered when a new comment is created on an issue and
+    the comment mentions the bot's name. The bot will then react to the comment
+    with the "eyes" emoji and gather details about the issue, repository, and
+    other comments.
+
+    After constructing a metaprompt from these details, the function generates a
+    response from the GPT-4 model using the OpenAI API and posts this response as
+    a new comment on the issue.
+
+    Parameters
+    ----------
+    action: str
+        The action that triggered the event. Here, it's always "created".
+    issue: dict
+        Information about the issue where the comment was posted.
+    comment: dict
+        The comment that was posted.
+    repository: dict, optional
+        Information about the repository where the issue and comment exist.
+    sender: dict, optional
+        Information about the user who posted the comment.
+    installation: dict, optional
+        Information about the installation event if this is part of an app installation.
+    assignee: dict, optional
+        Information about the user to whom the issue is assigned.
+    changes: dict, optional
+        Information about any changes to the issue.
+    organization: dict, optional
+        Information about the organization if the repository is part of an organization.
+    """
     github_api = RUNTIME_CONTEXT.app_installation_client
     if re.search(r'\@{}\b'.format(BOT_NAME), comment['body']):
         comment_reactions_api_url = f"{comment['url']}/reactions"
