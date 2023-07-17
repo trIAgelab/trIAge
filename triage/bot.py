@@ -205,5 +205,5 @@ set_api_key()
 run_app(
     name=BOT_NAME,
     version='0.0.1',
-    url='https://github.com/apps/triage-bot-app',
+    url='https://github.com/apps/triage-assistant-app',
 )
