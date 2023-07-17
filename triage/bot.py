@@ -1,5 +1,7 @@
 import re
 import os
+from loguru import logger
+
 import openai
 from octomachinery.app.server.runner import run as run_app
 from octomachinery.routing import process_event_actions
@@ -110,6 +112,7 @@ async def on_comment(
     organization: dict, optional
         Information about the organization if the repository is part of an organization.
     """
+    logger.info(f"Received issue_comment event with action '{action}'")
     github_api = RUNTIME_CONTEXT.app_installation_client
     if re.search(r'\@{}\b'.format(BOT_NAME), comment['body']):
         comment_reactions_api_url = f"{comment['url']}/reactions"
